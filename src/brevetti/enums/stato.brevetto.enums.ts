@@ -1,0 +1,10 @@
+export enum StatoBrevetto {
+    DEPOSITO = 'DEPOSITO',
+    ESAME = 'ESAME',
+    CONCESSIONE = 'CONCESSIONE',
+    ATTIVO = 'ATTIVO',
+    SCADUTO = 'SCADUTO',
+    DECADUTO = 'DECADUTO',
+    RINUNCIATO = 'RINUNCIATO',
+    ANNULLATO = 'ANNULLATO'
+  }
