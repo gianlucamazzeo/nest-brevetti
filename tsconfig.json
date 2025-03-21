@@ -6,6 +6,10 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "types": [
+      "node",
+      "@nestjs/config"
+    ],
     "target": "ES2023",
     "sourceMap": true,
     "outDir": "./dist",
