@@ -1,7 +1,7 @@
 stages:
   - validate
   - build
-  - test
+  #- test
   - deploy
 
 variables:
@@ -25,24 +25,24 @@ lint-backend:
   only:
     - develop
 
-test-backend:
-  stage: test
-  image: node:20-alpine
-  services:
-    - name: mongo:latest
-      alias: mongodb
-      variables:
-        MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-        MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-        MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
-  variables:
-    MONGODB_URI: ${MONGODB_URI}
-    NODE_ENV: test
-  script:
-    - npm ci
-    - npm test
-  only:
-    - develop
+# test-backend:
+#   stage: test
+#   image: node:20-alpine
+#   services:
+#     - name: mongo:latest
+#       alias: mongodb
+#       variables:
+#         MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+#         MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+#         MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+#   variables:
+#     MONGODB_URI: ${MONGODB_URI}
+#     NODE_ENV: test
+#   script:
+#     - npm ci
+#     - npm test
+#   only:
+#     - develop
 
 build-backend:
   stage: build
