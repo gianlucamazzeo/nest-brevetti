@@ -1,0 +1,75 @@
+stages:
+  - validate
+  - build
+  - test
+  - deploy
+
+variables:
+  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_HOST: tcp://docker:2376
+  DOCKER_TLS_VERIFY: 1
+  DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
+
+# Cache modules between jobs
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+lint-backend:
+  stage: validate
+  image: node:20-alpine
+  script:
+    - npm ci
+    - npm run lint
+  only:
+    - develop
+
+test-backend:
+  stage: test
+  image: node:20-alpine
+  services:
+    - name: mongo:latest
+      alias: mongodb
+      variables:
+        MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+        MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+        MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+  variables:
+    MONGODB_URI: ${MONGODB_URI}
+    NODE_ENV: test
+  script:
+    - npm ci
+    - npm test
+  only:
+    - develop
+
+build-backend:
+  stage: build
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHORT_SHA .
+    - docker push $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHORT_SHA
+    - docker tag $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE/backend:develop
+    - docker push $CI_REGISTRY_IMAGE/backend:develop
+  only:
+    - develop
+
+deploy-local-vm:
+  stage: deploy
+  tags: 
+    - MacchineVirtuali-Deploy-Runner
+  script:
+    - ssh $DEV_SERVER_USER@$DEV_SERVER_HOST "cd /var/www/ufficio-brevetti && 
+      export BACKEND_IMAGE=$CI_REGISTRY_IMAGE/backend:develop && 
+      docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY && 
+      docker-compose pull backend && 
+      docker-compose up -d backend"
+  environment:
+    name: dev
+    url: http://$LOCAL_VM_IP:3000
+  only:
+    - develop
