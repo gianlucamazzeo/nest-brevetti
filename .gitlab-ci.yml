@@ -63,7 +63,7 @@ deploy-local-vm:
   tags: 
     - MacchineVirtuali-Deploy-Runner
   script:
-    - ssh $DEV_SERVER_USER@$DEV_SERVER_HOST "cd /var/www/ufficio-brevetti && 
+    - ssh $LOCAL_VM_USER@$$LOCAL_VM_IP "cd /var/www/ufficio-brevetti && 
       export BACKEND_IMAGE=$CI_REGISTRY_IMAGE/backend:develop && 
       docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY && 
       docker-compose pull backend && 
