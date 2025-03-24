@@ -2,9 +2,11 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 
-export type UtenteDocument = Utente & Document;
+export interface UtenteDocument extends Utente, Document {
+  comparePassword(candidatePassword: string): Promise<boolean>;
+}
 
-@Schema({ timestamps: true })
+@Schema({ timestamps: true, collection: 'utentes' })
 export class Utente {
   @Prop({ required: true, unique: true, index: true })
   email: string;
@@ -34,8 +36,8 @@ export class Utente {
 export const UtenteSchema = SchemaFactory.createForClass(Utente);
 
 // Aggiungi un metodo per confrontare la password
-UtenteSchema.methods.comparePassword = async function(password: string): Promise<boolean> {
-  return await bcrypt.compare(password, this.password);
+UtenteSchema.methods.comparePassword = async function(candidatePassword: string): Promise<boolean> {
+  return await bcrypt.compare(candidatePassword, this.password);
 };
 
 // Hook pre-save per hashare la password
