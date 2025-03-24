@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
-import { StatoBrevetto } from '../enums/stato.brevetto.enums';
+import { StatoBrevetto } from '../enums/stato-brevetto.enum';
 import { Titolare } from '../../titolari/schemas/titolare.schema';
 
 export type BrevettoDocument = Brevetto & Document;
