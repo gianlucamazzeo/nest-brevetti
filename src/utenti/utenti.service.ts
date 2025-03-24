@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { FilterQuery, Model } from 'mongoose';
 import { Utente, UtenteDocument } from './schemas/utente.schema';
 import { CreateUtenteDto } from './dto/create-utente.dto';
 import { UpdateUtenteDto } from './dto/update-utente.dto';
@@ -29,7 +29,8 @@ export class UtentiService {
     const skip = (page - 1) * limit;
     
     // Costruisci la query con i filtri
-    const query: any = {};
+//    const query: any = {};
+    const query: FilterQuery<UtenteDocument> = {};
     
     if (filtri) {
       if (filtri.ruolo) {
@@ -58,6 +59,7 @@ export class UtentiService {
       .exec();
     
     // Conta il totale per la paginazione
+   
     const total = await this.utenteModel.countDocuments(query).exec();
     
     return {
@@ -118,8 +120,8 @@ export class UtentiService {
     ).exec();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
-  async updateUltimoAccesso(userId: string | any): Promise<void> {
+ 
+  async updateUltimoAccesso(userId: string | mongoose.Types.ObjectId): Promise<void> {
     const id = typeof userId === 'string' ? userId : userId.toString();
     
     await this.utenteModel.updateOne(
