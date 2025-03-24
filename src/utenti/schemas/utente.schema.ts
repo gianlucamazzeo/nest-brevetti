@@ -37,6 +37,7 @@ export const UtenteSchema = SchemaFactory.createForClass(Utente);
 
 // Aggiungi un metodo per confrontare la password
 UtenteSchema.methods.comparePassword = async function(candidatePassword: string): Promise<boolean> {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
@@ -51,6 +52,7 @@ UtenteSchema.pre('save', async function(next) {
     this.password = await bcrypt.hash(this.password, salt);
     next();
   } catch (error) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     next(error);
   }
 });
