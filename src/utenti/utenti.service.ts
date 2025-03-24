@@ -5,6 +5,13 @@ import { Utente, UtenteDocument } from './schemas/utente.schema';
 import { CreateUtenteDto } from './dto/create-utente.dto';
 import { UpdateUtenteDto } from './dto/update-utente.dto';
 
+interface PaginationMeta {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
 @Injectable()
 export class UtentiService {
   constructor(
@@ -24,7 +31,7 @@ export class UtentiService {
       attivo?: boolean;
       search?: string;
     };
-  }): Promise<{ data: Utente[]; meta: any }> {
+  }): Promise<{ data: Utente[]; meta: PaginationMeta }> {
     const { page, limit, filtri } = options;
     const skip = (page - 1) * limit;
     
