@@ -8,3 +8,4 @@ export enum StatoBrevetto {
     RINUNCIATO = 'RINUNCIATO',
     ANNULLATO = 'ANNULLATO'
   }
+  
