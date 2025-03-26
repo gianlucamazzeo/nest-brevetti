@@ -4,13 +4,9 @@ import mongoose, { FilterQuery, Model } from 'mongoose';
 import { Utente, UtenteDocument } from './schemas/utente.schema';
 import { CreateUtenteDto } from './dto/create-utente.dto';
 import { UpdateUtenteDto } from './dto/update-utente.dto';
+import { PaginatedResponse } from '../common/types';
 
-interface PaginationMeta {
-  total: number;
-  page: number;
-  limit: number;
-  totalPages: number;
-}
+
 
 @Injectable()
 export class UtentiService {
@@ -31,7 +27,7 @@ export class UtentiService {
       attivo?: boolean;
       search?: string;
     };
-  }): Promise<{ data: Utente[]; meta: PaginationMeta }> {
+  }): Promise<PaginatedResponse<Utente>> {
     const { page, limit, filtri } = options;
     const skip = (page - 1) * limit;
     

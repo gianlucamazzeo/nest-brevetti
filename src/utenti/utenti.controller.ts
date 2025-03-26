@@ -18,6 +18,8 @@ import {
   import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
   import { RolesGuard } from '../auth/guards/roles.guard';
   import { Roles } from '../auth/decorators/roles.decorator';
+  import { PaginatedResponse } from '../common/types';
+  import { Utente } from './schemas/utente.schema';
 
   interface UserPayload {
     _id: string;
@@ -48,7 +50,7 @@ import {
       @Query('ruolo') ruolo?: string,
       @Query('attivo') attivo?: boolean,
       @Query('search') search?: string,
-    ) {
+    ): Promise<PaginatedResponse<Utente>> {
       return this.utentiService.findAll({
         page,
         limit,
