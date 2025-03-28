@@ -4,11 +4,15 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { UtentiModule } from './utenti/utenti.module';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
+import { WrapResponseInterceptor } from './common/interceptors/wrap-response.interceptor';
 
 @Module({
   imports: [
     // Configurazione variabili d'ambiente
-    
+
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: `.env.development`,
@@ -19,19 +23,31 @@ import { AuthModule } from './auth/auth.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
-        
         const uri = configService.get<string>('MONGODB_URI');
         if (!uri) {
-          console.error('MONGODB_URI non è definito nelle variabili d\'ambiente');
+          console.error(
+            "MONGODB_URI non è definito nelle variabili d'ambiente",
+          );
         }
         return {
-          uri
-        }
-      }
+          uri,
+        };
+      },
     }),
-    AuthModule
+    UtentiModule,
+    AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: WrapResponseInterceptor,
+    },
+  ],
 })
 export class AppModule {}
