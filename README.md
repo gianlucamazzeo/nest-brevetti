@@ -34,7 +34,7 @@ Il progetto "UfficioBrevetti" è un'applicazione completa per la gestione di bre
 ### Infrastruttura e Configurazione
 
 - **Docker e Docker Compose**: L'intero sistema è containerizzato per garantire la portabilità e la consistenza tra ambienti di sviluppo, test e produzione.
-- **MongoDB**: Database NoSQL utilizzato per la persistenza dei dati, accessibile tramite Mongoose per una gestione ORM avanzata.
+- **MongoDB**: Database NoSQL utilizzato per la persistenza dei dati, accessibile tramite Mongoose per una gestione ODM avanzata.
 - **Mongo Express**: Interfaccia di amministrazione per MongoDB, utile in fase di sviluppo.
 - **Configurazione Ambiente**: Gestione separata delle configurazioni per diversi ambienti (development, test, production) tramite variabili d'ambiente.
 - **CI/CD Pipeline**: Integrazione con GitLab CI/CD per automatizzare i processi di linting, testing, building e deployment.
