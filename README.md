@@ -27,7 +27,7 @@
 
 ## Panoramica del Progetto
 
-Il progetto "UfficioBrevetti" è un'applicazione completa per la gestione di brevetti, marchi e design industriali. È composto da un backend sviluppato con Nest.js e MongoDB e un frontend basato su Svelte e TypeScript. L'architettura è pensata per offrire un sistema completo, scalabile e containerizzato che permetta di gestire in modo efficiente tutte le attività tipiche di un ufficio brevetti.
+Il progetto "UfficioBrevetti" è un'applicazione completa per la gestione di brevetti, marchi e design industriali. È composto da un backend sviluppato con Nest.js e MongoDB e un frontend basato su Svelte (non implementato in questa repo) e TypeScript. L'architettura è pensata per offrire un sistema completo, scalabile e containerizzato che permetta di gestire in modo efficiente tutte le attività tipiche di un ufficio brevetti.
 
 ## Componenti Principali del Backend
 
