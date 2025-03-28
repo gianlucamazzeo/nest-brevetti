@@ -113,6 +113,12 @@ L'applicazione backend segue l'architettura modulare di Nest.js con una chiara s
    - Sistema automatico di notifiche per scadenze
    - Tracciamento delle notifiche lette/non lette
    - Possibilità di invio email per notifiche urgenti
+  
+6. **Gestione Standardizzata delle Risposte API**:
+   - Formato di risposta uniforme per tutte le API
+   - Intercettori per trasformare automaticamente le risposte
+   - Gestione consistente di successi ed errori
+   - Inclusione di metadati utili (timestamp, codici di stato)
 
 ## Best Practices Implementate
 
@@ -138,6 +144,13 @@ L'applicazione backend segue l'architettura modulare di Nest.js con una chiara s
    - CI/CD con GitLab
    - Configurazione per ambienti multipli
 
+5. **Gestione Errori e Risposte**:
+   - Filtri per eccezioni personalizzati
+   - Intercettori per uniformare il formato delle risposte
+   - Logging strutturato di errori e richieste
+   - Messaggi di errore localizzati e user-friendly
+
+
 ## Miglioramenti Recenti
 
 - Risoluzione di problemi di tipizzazione nelle risposte paginate
@@ -159,6 +172,12 @@ L'applicazione backend segue l'architettura modulare di Nest.js con una chiara s
 3. **Ottimizzazioni**:
    - Implementazione di caching per migliorare le performance
    - Miglioramento del sistema di notifiche
+  
+4. **Documentazione API con Swagger**:
+   - Implementazione di Swagger UI per documentazione interattiva
+   - Decorazione completa di controller e DTO per generazione automatica della documentazione
+   - Esempi di richieste e risposte per ogni endpoint
+   - Integrazione con il sistema di autenticazione per test interattivi
 
 ## Conclusioni
 
