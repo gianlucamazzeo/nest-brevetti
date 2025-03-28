@@ -24,6 +24,7 @@ export class UpdateUtenteDto extends PartialType(
   @IsOptional()
   @IsBoolean({ message: 'Il campo attivo deve essere un booleano' })
   attivo?: boolean;
+  password: any;
 }
 
 // DTO separato per l'aggiornamento della password
