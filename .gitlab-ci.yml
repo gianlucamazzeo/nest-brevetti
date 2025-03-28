@@ -59,7 +59,7 @@ build-backend:
     - master
 
 deploy-local-vm:
-  stage: master
+  stage: deploy
   tags: 
     - MacchineVirtuali-Deploy-Runner
   script:
