@@ -61,7 +61,7 @@ build-backend:
 deploy-local-vm:
   stage: deploy
   tags: 
-    - MacchineVirtuali-Deploy-Runner
+    - Runner-Locale-Dev-Environment
   script:
     - ssh $LOCAL_VM_USER@$$LOCAL_VM_IP "cd /var/www/ufficio-brevetti && 
       export BACKEND_IMAGE=$CI_REGISTRY_IMAGE/backend:develop && 
