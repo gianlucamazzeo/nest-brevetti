@@ -82,6 +82,7 @@ L'applicazione backend segue l'architettura modulare di Nest.js con una chiara s
 - **DTOs**: Validano i dati in entrata
 - **Guards**: Proteggono gli endpoint in base all'autenticazione e ai ruoli
 - **Decorators**: Facilitano l'implementazione di funzionalità cross-cutting
+- **Interceptors**: Intercettano e trasformano le richieste o risposte HTTP prima/dopo l'elaborazione
 
 ## Funzionalità Implementate
 
