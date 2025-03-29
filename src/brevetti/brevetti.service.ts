@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 import { Brevetto, BrevettoDocument } from './schemas/brevetto.schema';
 import { CreateBrevettoDto } from './dto/create-brevetto.dto';
 import { UpdateBrevettoDto } from './dto/update-brevetto.dto';
@@ -34,7 +34,7 @@ export class BrevettiService {
     const skip = (page - 1) * limit;
     
     // Costruisci il filtro di query
-    const query: any = {};
+    const query: FilterQuery<BrevettoDocument> = {};
     
     if (filtri) {
       if (filtri.stato) {
@@ -73,6 +73,7 @@ export class BrevettiService {
     // Esegui la query
     const brevetti = await this.brevettoModel
       .find(query)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       .sort(sort)
       .skip(skip)
       .limit(limit)
