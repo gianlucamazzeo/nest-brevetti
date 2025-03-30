@@ -63,14 +63,12 @@ deploy-local-vm:
   tags: 
     - MacchineVirtuali-Deploy-Runner
   script:
-    - |
-      SSH_COMMAND="cd /var/www/ufficio-brevetti && \
-      export BACKEND_IMAGE=$CI_REGISTRY_IMAGE/backend:develop && \
-      docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY && \
-      docker-compose pull backend && \
-      docker-compose up -d backend && \
-      echo 'Verifica dello stato del container:'"
-    - ssh $DEV_SERVER_USER@$DEV_SERVER_HOST "$SSH_COMMAND"
+    - ssh $LOCAL_VM_USER@$$LOCAL_VM_IP "cd /var/www/ufficio-brevetti && 
+      export BACKEND_IMAGE=$CI_REGISTRY_IMAGE/backend:develop && 
+      docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY && 
+      docker-compose pull backend && 
+      docker-compose up -d backend"
+
   environment:
     name: dev
     url: http://$LOCAL_VM_IP:3000
