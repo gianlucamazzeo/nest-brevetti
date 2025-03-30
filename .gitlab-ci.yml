@@ -69,7 +69,7 @@ deploy-local-vm:
       docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY && \
       docker-compose pull backend && \
       docker-compose up -d backend" \
-      echo 'Verifica dello stato del container:' && \
+      echo 'Verifica dello stato del container:'" && \
     - ssh $DEV_SERVER_USER@$DEV_SERVER_HOST "$SSH_COMMAND"
   environment:
     name: dev
