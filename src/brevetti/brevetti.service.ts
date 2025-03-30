@@ -73,7 +73,6 @@ export class BrevettiService {
     // Esegui la query
     const brevetti = await this.brevettoModel
       .find(query)
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       .sort(sort)
       .skip(skip)
       .limit(limit)
