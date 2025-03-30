@@ -16,6 +16,7 @@ cache:
   paths:
     - node_modules/
 
+
 lint-backend:
   stage: validate
   image: node:20-alpine
