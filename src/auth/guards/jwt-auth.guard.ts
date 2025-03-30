@@ -20,8 +20,8 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     return super.canActivate(context);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  handleRequest(err: any, user: any, _info: any) {
+  
+  handleRequest(err: any, user: any) {
     // Se c'è un errore o l'utente non è stato trovato
     if (err || !user) {
       throw err || new UnauthorizedException('Accesso non autorizzato: autenticazione richiesta');
