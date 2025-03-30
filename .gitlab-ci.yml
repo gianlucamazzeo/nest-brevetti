@@ -23,7 +23,7 @@ lint-backend:
     - npm ci
     - npm run lint
   only:
-    - develop
+    - master
 
 # test-backend:
 #   stage: test
@@ -56,7 +56,7 @@ build-backend:
     - docker tag $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE/backend:develop
     - docker push $CI_REGISTRY_IMAGE/backend:develop
   only:
-    - develop
+    - master
 
 deploy-local-vm:
   stage: deploy
@@ -71,9 +71,8 @@ deploy-local-vm:
       docker-compose up -d backend" \
       echo 'Verifica dello stato del container:' && \
     - ssh $DEV_SERVER_USER@$DEV_SERVER_HOST "$SSH_COMMAND"
-
   environment:
     name: dev
     url: http://$LOCAL_VM_IP:3000
   only:
-    - develop
+    - master
