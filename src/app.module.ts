@@ -5,6 +5,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UtentiModule } from './utenti/utenti.module';
+import { TitolariModule } from './titolari/titolari.module';
+import { BrevettiModule } from './brevetti/brevetti.module';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { WrapResponseInterceptor } from './common/interceptors/wrap-response.interceptor';
@@ -36,6 +38,8 @@ import { WrapResponseInterceptor } from './common/interceptors/wrap-response.int
     }),
     UtentiModule,
     AuthModule,
+    TitolariModule,
+    BrevettiModule
   ],
   controllers: [AppController],
   providers: [
