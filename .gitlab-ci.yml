@@ -1,8 +1,8 @@
 stages:
   - validate
   - build
-  #- test
-  - deploy
+  # - test
+  # - deploy
 
 variables:
   DOCKER_TLS_CERTDIR: "/certs"
@@ -16,7 +16,6 @@ cache:
   paths:
     - node_modules/
 
-
 lint-backend:
   stage: validate
   image: node:20-alpine
@@ -24,6 +23,7 @@ lint-backend:
     - npm ci
     - npm run lint
   only:
+    - develop
     - master
 
 # test-backend:
@@ -44,34 +44,66 @@ lint-backend:
 #     - npm test
 #   only:
 #     - develop
+#     - master
 
-build-backend:
+build-backend-develop:
   stage: build
   image: docker:20.10.16
   services:
     - docker:20.10.16-dind
   script:
-    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -t $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHORT_SHA .
     - docker push $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHORT_SHA
     - docker tag $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE/backend:develop
     - docker push $CI_REGISTRY_IMAGE/backend:develop
   only:
-    - master
+    - develop
 
-deploy-local-vm:
-  stage: deploy
-  tags: 
-    - MacchineVirtuali-Deploy-Runner
+build-backend-master:
+  stage: build
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
   script:
-    - ssh $LOCAL_VM_USER@$LOCAL_VM_IP "cd /var/www/ufficio-brevetti && 
-      export BACKEND_IMAGE=$CI_REGISTRY_IMAGE/backend:develop && 
-      docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY && 
-      docker-compose pull backend && 
-      docker-compose up -d backend"
-
-  environment:
-    name: dev
-    url: http://$LOCAL_VM_IP:3000
+    # Push direttamente su DockerHub
+    - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
+    - docker build -t $DOCKERHUB_USERNAME/ufficio-brevetti-backend:latest .
+    - docker push $DOCKERHUB_USERNAME/ufficio-brevetti-backend:latest
+    - docker tag $DOCKERHUB_USERNAME/ufficio-brevetti-backend:latest $DOCKERHUB_USERNAME/ufficio-brevetti-backend:$CI_COMMIT_SHORT_SHA
+    - docker push $DOCKERHUB_USERNAME/ufficio-brevetti-backend:$CI_COMMIT_SHORT_SHA
   only:
     - master
+
+# deploy-local-vm:
+#   stage: deploy
+#   tags:
+#     - 
+#   script:
+#     - ssh $DEV_SERVER_USER@$DEV_SERVER_HOST "cd /var/www/ufficio-brevetti && 
+#       export BACKEND_IMAGE=$CI_REGISTRY_IMAGE/backend:develop && 
+#       docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY && 
+#       docker-compose pull backend && 
+#       docker-compose up -d backend"
+#   environment:
+#     name: dev
+#     url: http://$LOCAL_VM_IP:3000
+#   only:
+#     - develop
+
+# deploy-production:
+#   stage: deploy
+#   tags:
+#     - prod-deploy
+#   script:
+#     - ssh $PROD_SERVER_USER@$PROD_SERVER_HOST "cd /var/www/ufficio-brevetti && 
+#       export BACKEND_IMAGE=$DOCKERHUB_USERNAME/ufficio-brevetti-backend:latest && 
+#       docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN && 
+#       docker compose pull backend && 
+#       docker compose up -d backend"
+#   environment:
+#     name: production
+#     url: https://$PROD_DOMAIN
+#   only:
+#     - master
+#   when: manual
