@@ -67,7 +67,7 @@ export class BrevettiService {
     }
     
     // Costruisci l'ordinamento
-    const sort: any = {};
+    const sort: Record<string, 1 |-1> = {};
     sort[sortBy] = sortOrder === 'asc' ? 1 : -1;
     
     // Esegui la query
